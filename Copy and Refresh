@@ -1,0 +1,49 @@
+Sub RUN_TO_COPY()
+
+    Dim masterworkbook As Workbook
+    Dim destinationworkbook As Workbook
+    Dim masterworksheet As Worksheet
+    Dim destinationworksheet As Worksheet
+    Dim lastrow As Long
+    Dim clear As Long
+    
+        Dim masterfilepath As String
+        Dim destinationfilepath As String
+            
+            masterfilepath = "\\D8T-FSV-PP2\Digital Surveillance\Fraud Analyst\Fraud Alert\FDU Transaction Case Summary File\2023 (New Files)\FDU_Transaction Case Summary_2023.xlsb"
+            destinationfilepath = "X:\Post Blocking Follow Up\Data\All Data Blocked.xlsx"
+            
+Set masterworkbook = Workbooks.Open(masterfilepath)
+Set masterworksheet = masterworkbook.Sheets(4)
+
+Set destinationworkbook = Workbooks.Open(destinationfilepath)
+Set destinationworksheet = destinationworkbook.Sheets(1)
+
+lastrow = masterworksheet.Cells(masterworksheet.Rows.Count, "A").End(xlUp).Row
+clear = destinationworksheet.UsedRange.Delete
+
+masterworksheet.Range("A1:H" & lastrow).Copy Destination:=destinationworksheet.Cells(1, 1)
+
+destinationworksheet.Columns.AutoFit
+destinationworkbook.Close savechanges:=True
+masterworkbook.Save
+
+MsgBox "All data was successfully copied to IT files"
+
+    Set masterworksheet = Nothing
+    Set masterworkbook = Nothing
+    Set destinationworksheet = Nothing
+    Set destinationworkbook = Nothing
+    
+End Sub
+Sub REFRESH_FILE()
+'
+' REFRESH_FILE Macro
+'
+
+'
+    ActiveWorkbook.RefreshAll
+    
+    MsgBox "All queries refresh in the background. Please open Queries & Connections to see the refresh status is completed", vbInformation, "Query Refresh Complete"
+    
+End Sub
